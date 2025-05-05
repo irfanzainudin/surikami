@@ -232,3 +232,7 @@ local_settings.py
 
 .env
 db.sqlite3
+
+# Extra miscellaneous
+
+static/index.html
