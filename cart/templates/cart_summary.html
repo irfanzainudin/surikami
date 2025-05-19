@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+                <p class="lead fw-normal text-white-50 mb-0">View your cart</p>
+            </div>
+        </div>
+    </header>
+    <!-- Section -->
+    <section class="py-5">
+        {% comment %} <div class="d-flex justify-content-center">
+            <h3>Total: ${{ totals }}</h3>
+        </div> {% endcomment %}
+        <div class="container px-4 px-lg-5 mt-5">
+            {% for product in products %}
+                {% include 'cart_product.html' with product=product quantities=quantities %}
+            {% empty %}
+                <p>There's nothing in your cart :&#40;</p>
+            {% endfor %}
+        </div>
+        <div class="container px-5" align="right">
+            <h3>Total: ${{ totals }}</h3>
+            <a class="btn btn-success" role="button" type="button" href="{% url 'checkout' %}">
+                Checkout
+            </a>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Update cart
+    $(document).on('click', '.update-cart', function(e) {
+        e.preventDefault();
+
+        // Grab the product ID
+        var product_id = $(this).data('index');
+
+        $.ajax({
+            // Designate 
+            type: 'POST',
+            url: '{% url "cart_update" %}',
+            data: {
+                product_id: $(this).data('index'),
+                product_qty: $('#select' + product_id + ' option:selected').text(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function(json) {
+                // console.log(json);
+                location.reload();
+            },
+
+            error: function(xhr, errmsg, err) {
+                // ...
+            },
+        })
+    });
+
+    // Delete cart
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+
+        // Grab the product ID
+        // var product_id = $(this).data('index');
+
+        $.ajax({
+            // Designate 
+            type: 'POST',
+            url: '{% url "cart_delete" %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function(json) {
+                location.reload();
+            },
+
+            error: function(xhr, errmsg, err) {
+                // ...
+            },
+        })
+    })
+</script>
+{% endblock scripts %}

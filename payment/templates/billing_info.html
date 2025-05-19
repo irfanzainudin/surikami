@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block scripts %}{% endblock scripts %}
+
+{% block content %}
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Billing Info</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Enter your payment info</p>
+            </div>
+        </div>
+    </header>
+    <!-- Section -->
+    <section class="py-5">
+        <div class="d-flex justify-content-center">
+            <h3>Total: ${{ totals }}</h3>
+        </div>
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Order summary
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        {% for product in products %}
+                            {% comment %} {% include 'cart_product.html' with product=product quantities=quantities %} {% endcomment %}
+                            {{ product.name }}:
+                            {% if product.is_on_sale %}
+                                {{ product.sale_price }}
+                            {% else %}
+                                {{ product.price }}
+                            {% endif %}
+            
+                            <br/>
+                            <small>
+                                Quantity:
+                                {% for key, value in quantities.items %}
+                                    {% if key == product.id|slugify %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor %}
+                            </small>
+                            <br/>
+                        {% empty %}
+                            <p>There's nothing in your cart :&#40;&#40;&#40;&#40;&#40;</p>
+                        {% endfor %}
+                        <br/>
+                        <strong>
+                            Total: ${{ totals }}
+                        </strong>
+                    </p>
+                    {% comment %} <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a> {% endcomment %}
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    Shipping information
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Name: {{ shipping_info.shipping_full_name }},
+                        <br/>
+                        Address1: {{ shipping_info.shipping_address1 }},
+                        <br/>
+                        Address2: {{ shipping_info.shipping_address2 }},
+                        <br/>
+                        Email: {{ shipping_info.shipping_email }}
+                        <br/>
+                        City: {{ shipping_info.shipping_city }},
+                        <br/>
+                        State: {{ shipping_info.shipping_state }},
+                        <br/>
+                        Zipcode: {{ shipping_info.shipping_zipcode }},
+                        <br/>
+                        Country: {{ shipping_info.shipping_country }},
+                        <br/>
+                    </p>
+                    <a href="{% url 'checkout' %}" class="btn btn-sm btn-outline-secondary">Update Shipping Info</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    Billing information
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <form method="POST" action="{% url 'process_order' %}">
+                            {% csrf_token %}
+                            {{ billing_form.as_p }}
+                            <button type="submit" class="btn btn-primary w-100">Pay Now</button>
+                        </form>
+                    </p>
+                    {% comment %} <a href="{% url 'checkout' %}" class="btn btn-sm btn-outline-secondary">Update Billing Info</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

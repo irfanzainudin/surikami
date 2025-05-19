@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Search</h1>
+                {% comment %} <p class="lead fw-normal text-white-50 mb-0"></p> {% endcomment %}
+            </div>
+        </div>
+    </header>
+    <!-- Section -->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5">
+            <div class="card">
+                <h5 class="card-header text-center">Search</h5>
+                <div class="card-body">
+                    {% comment %} <h5 class="card-title">Special title treatment</h5> {% endcomment %}
+                    <p class="card-text">
+                        <form method="POST" action="{% url 'search' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                              {% comment %} <label for="search-fields" class="form-label"></label> {% endcomment %}
+                              <input type="text" class="form-control" id="search-field" aria-describedby="search-help" name="searched">
+                              <div id="search-help" class="form-text"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </form>
+                    </p>
+                    {% comment %} <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
+                </div>
+            </div>
+            <section class="py-5">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                        {% if searched %}
+                            {% comment %} <h2>Results for "{{ searched }}":</h2> {% endcomment %}
+                            {% for product in products %}
+                                {% include 'product_listing.html' with product=product %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+{% endblock content %}

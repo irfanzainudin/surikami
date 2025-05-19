@@ -236,3 +236,6 @@ db.sqlite3
 # Extra miscellaneous
 
 static/index.html
+main.sql
+result.zip
+data.sql

@@ -1,0 +1,41 @@
+
+<div class="col mb-5">
+    <div class="card h-100">
+        <!-- Sale badge-->
+        {% if product.is_on_sale %}
+            <div class="badge bg-primary bg-text-primary position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+        {% endif %}
+        <!-- Product image-->
+        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.description }}" />
+        <!-- Product details-->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <!-- Product name-->
+                <h5 class="fw-bolder">{{ product.name }}</h5>
+                <!-- Product price-->
+                {% if product.is_on_sale %}
+                    <strike class="text-muted">
+                        ${{ product.price }}
+                    </strike>
+                    &nbsp;
+                    <span class="fs-4">
+                        ${{ product.sale_price }}
+                    </span>
+                    <br/>
+                {% else %}
+                    <span class="fs-4">
+                        ${{ product.price }}
+                    </span>
+                    <br/>
+                {% endif %}
+                {{ product.description }}
+                {% comment %} <br/>
+                In: {{ product.category }} {% endcomment %}
+            </div>
+        </div>
+        <!-- Product actions-->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View product</a></div>
+        </div>
+    </div>
+</div>

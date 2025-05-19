@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    <!-- three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.155.0/three.js" integrity="sha512-rnAQuYexdNwjVOFClSkv9/kf5S7xA2cftTuYIwGu30lFgD0aXmdnYV2o4kWs6ePw4VFpTF8nC6z1wm2Ke5l54g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- pass shapes to shapes.js -->
+    <script>
+        const shapes = JSON.parse('{{ shapes | safe }}');
+        console.log(shapes);
+    </script>
+    <script type="module" src="{% static "js/shapes.js" %}" defer></script>
+
+{% endblock scripts %}
+
+{% block content %}
+
+    <div id="scene-box"></div>
+
+{% endblock content %}

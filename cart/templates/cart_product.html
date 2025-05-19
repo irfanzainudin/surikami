@@ -1,0 +1,53 @@
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.description }}">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                {% if product.is_on_sale %}
+                    <h5 class="card-title">
+                        {{ product.name }} <div class="badge bg-primary bg-text-primary">On Sale</div>
+                    </h5>
+                    <strike class="text-muted">
+                        ${{ product.price }}
+                    </strike>
+                    &nbsp;
+                    <span class="card-text fs-4">${{ product.sale_price }}</span>
+                {% else %}
+                    <h5 class="card-title">
+                        {{ product.name }}
+                    </h5>
+                    <p class="card-text">${{ product.price }}</p>
+                {% endif %}
+                <p class="card-text">{{ product.description }}</p>
+                {% comment %} <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> {% endcomment %}
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        Quantity:
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-select" aria-label="Default select example" id="select{{product.id}}">
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    <option value="{{ value }}" selected>{{ value }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            <!-- TODO: Figure out a way to show the non-selected amounts -->
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+                <br/>
+                <button type="button" class="btn btn-secondary update-cart" data-index={{ product.id }}>
+                    Update
+                </button>
+                <button type="button" class="btn btn-danger delete-product" data-index={{ product.id }}>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
