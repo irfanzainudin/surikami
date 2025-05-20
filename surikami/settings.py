@@ -33,6 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '.localhost',
     'store.pantunis.com',
+    os.environ.get('SERVER_IP'),
 ]
 
 
