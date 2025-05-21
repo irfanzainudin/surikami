@@ -10,15 +10,15 @@
                         {{ product.name }} <div class="badge bg-primary bg-text-primary">On Sale</div>
                     </h5>
                     <strike class="text-muted">
-                        ${{ product.price }}
+                        RM{{ product.price }}
                     </strike>
                     &nbsp;
-                    <span class="card-text fs-4">${{ product.sale_price }}</span>
+                    <span class="card-text fs-4">RM{{ product.sale_price }}</span>
                 {% else %}
                     <h5 class="card-title">
                         {{ product.name }}
                     </h5>
-                    <p class="card-text">${{ product.price }}</p>
+                    <p class="card-text">RM{{ product.price }}</p>
                 {% endif %}
                 <p class="card-text">{{ product.description }}</p>
                 {% comment %} <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> {% endcomment %}

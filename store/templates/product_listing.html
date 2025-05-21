@@ -15,16 +15,16 @@
                 <!-- Product price-->
                 {% if product.is_on_sale %}
                     <strike class="text-muted">
-                        ${{ product.price }}
+                        RM{{ product.price }}
                     </strike>
                     &nbsp;
                     <span class="fs-4">
-                        ${{ product.sale_price }}
+                        RM{{ product.sale_price }}
                     </span>
                     <br/>
                 {% else %}
                     <span class="fs-4">
-                        ${{ product.price }}
+                        RM{{ product.price }}
                     </span>
                     <br/>
                 {% endif %}

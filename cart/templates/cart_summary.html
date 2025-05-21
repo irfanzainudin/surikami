@@ -13,7 +13,7 @@
     <!-- Section -->
     <section class="py-5">
         {% comment %} <div class="d-flex justify-content-center">
-            <h3>Total: ${{ totals }}</h3>
+            <h3>Total: RM{{ totals }}</h3>
         </div> {% endcomment %}
         <div class="container px-4 px-lg-5 mt-5">
             {% for product in products %}
@@ -23,7 +23,7 @@
             {% endfor %}
         </div>
         <div class="container px-5" align="right">
-            <h3>Total: ${{ totals }}</h3>
+            <h3>Total: RM{{ totals }}</h3>
             <a class="btn btn-success" role="button" type="button" href="{% url 'checkout' %}">
                 Checkout
             </a>

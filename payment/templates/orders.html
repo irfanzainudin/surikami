@@ -15,7 +15,7 @@
         <div class="container px-4 px-lg-5 mt-5 text-center">
             <div class="card">
                 <div class="card-header">
-                  Order {{ order.id }} - ${{ order.amount_paid }}
+                  Order {{ order.id }} - RM{{ order.amount_paid }}
                 </div>
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
@@ -33,7 +33,7 @@
                     
                     <ul>
                         {% for item in items %}
-                            <li>{{ item.product }} - {{ item.quantity }} - ${{ item.price }}</li>
+                            <li>{{ item.product }} - {{ item.quantity }} - RM{{ item.price }}</li>
                         {% endfor %}
                     </ul>
 
