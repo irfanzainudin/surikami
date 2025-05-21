@@ -34,7 +34,11 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '.localhost',
     'store.pantunis.com',
-    os.environ.get('SERVER_IP'),
+    os.environ.get('SERVER_IP')
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://store.pantunis.com',
 ]
 
 
