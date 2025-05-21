@@ -7,6 +7,12 @@ from store.models import Profile
 from django.contrib.auth.models import User
 import datetime
 
+# Imports for Paypal
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid # To create unique user ID
+
 
 def checkout(request):
     # Get cart
@@ -61,6 +67,25 @@ def billing_info(request):
         user_shipping = request.POST
         request.session['user_shipping'] = user_shipping
 
+        # Get the host
+        host = request.get_host() # localhost:8000
+        
+        # Create PayPal form dictionary
+        paypal_dict = {
+            'business': settings.PAYPAL_RECEIVER_EMAIL,
+            'amount': totals,
+            'item_name': 'Book Order',
+            'no_shipping': '2',
+            'invoice': str(uuid.uuid4()),
+            'currency_code': 'MYR',
+            'notify_url': f'https://{host}{reverse("paypal-ipn")}',
+            'return_url': f'https://{host}{reverse("payment_success")}',
+            'cancel_return': f'https://{host}{reverse("payment_failed")}',
+        }
+
+        # Create actual PayPal button
+        paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+
         # Checkout as logged in user
         if request.user.is_authenticated:
             # Get current user's shipping address
@@ -73,7 +98,8 @@ def billing_info(request):
                 'quantities': quantities,
                 'totals': totals,
                 'shipping_info': request.POST,
-                'billing_form': billing_form
+                'billing_form': billing_form,
+                'paypal_form': paypal_form,
             }
             return render(request, 'billing_info.html', context)
         else:
@@ -86,7 +112,8 @@ def billing_info(request):
                 'quantities': quantities,
                 'totals': totals,
                 'shipping_info': shipping_info,
-                'billing_form': billing_form
+                'billing_form': billing_form,
+                'paypal_form': paypal_form,
             }
             return render(request, 'billing_info.html', context)
     else:
@@ -199,6 +226,11 @@ def process_order(request):
 def payment_success(request):
     context = {}
     return render(request, 'payment_success.html', context)
+
+
+def payment_failed(request):
+    context = {}
+    return render(request, 'payment_failed.html', context)
 
 
 def shipped_dashboard(request):

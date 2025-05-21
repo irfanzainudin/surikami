@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'paypal.standard.ipn',
     'store',
     'printer',
     'cart',
@@ -162,3 +163,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# Django Paypal settings
+
+PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'business@surikami.com' # Business Sandbox account
